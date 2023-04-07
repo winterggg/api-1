@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo:4.2.23-bionic
+
+    restart: always
+    ports:
+      - 27017:27017
+    # command: --serviceExecutor adaptive --bind_ip_all
+    # command: --config /etc/mongo/mongod.conf
+    volumes:
+      - ./mongodb:/data/db
+      - ./mongoconfig:/data/configdb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "xxx"
