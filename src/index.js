@@ -35,7 +35,6 @@ const server = new ApolloServer({
         const token = req.headers.authorization
         // try to retrieve a user with the token
         const user = getUser(token)
-        console.log(user)
         // add the user to the context
         return { models, user }
     }

@@ -6,9 +6,11 @@ scalar DateTime
 type Note {
     id: ID!
     content: String!
-    author: String!
+    author: User!
     createdAt: DateTime!
     updatedAt: DateTime!
+    favoriteCount: Int!
+    favoritedBy: [User!]
 }
 
 type User {
@@ -17,6 +19,7 @@ type User {
     email: String!
     avatar: String
     notes: [Note!]!
+    favorites: [Note!]!
 }
 
 type Query {
@@ -34,5 +37,6 @@ type Mutation {
     updateNote(id: ID!, content: String!): Note!
     signUp(username: String!, email: String!, password: String!): String!
     signIn(username: String!, email: String!, password: String!): String!
+    toggleFavorite(id: ID!): Note!
 }
 `
