@@ -4,39 +4,51 @@ const {
     AuthenticationError,
     ForbiddenError
 } = require('apollo-server-express')
+const mongoose = require('mongoose')
 require('dotenv').config()
 
 const gravatar = require('../util/gravatar')
 
 module.exports = {
-    newNote: async (parent, args, { models }) => {
+    newNote: async (parent, args, { models, user }) => {
+        if (!user) {
+            return new AuthenticationError('您必须登录才能创建笔记')
+        }
         return await models.Note.create({
             content: args.content,
-            author: 'Winter Ji'
+            author: mongoose.Types.ObjectId(user.id)
         })
     },
-    deleteNote: async (parent, args, { models }) => {
+    deleteNote: async (parent, args, { models, user }) => {
+        if (!user) {
+            return new AuthenticationError('您必须登录才能删除笔记')
+        }
+        const note = await models.Note.findById(args.id)
+        if (note && String(note.author) !== user.id) {
+            throw new ForbiddenError('您没有权限删除该笔记')
+        }
+
         try {
-            const res = await models.Note.findByIdAndRemove(args.id)
-            return !!res
-        } catch (err) {
+            await note.remove()
+            return !!note
+        } catch (err) { // if note is null
             return false
         }
     },
-    updateNote: async (parent, { content, id }, { models }) => {
-        return await models.Note.findOneAndUpdate(
-            {
-                _id: id
-            },
-            {
-                $set: {
-                    content
-                }
-            },
-            {
-                new: true // return the new note instead of the old one
-            }
-        )
+    updateNote: async (parent, { content, id }, { models, user }) => {
+        if (!user) {
+            return new AuthenticationError('您必须登录才能更新笔记')
+        }
+
+        const note = await models.Note.findById(id)
+        if (note && String(note.author) !== user.id) {
+            console.log('Note author', note.author)
+            console.log('User ID', user.id)
+            throw new ForbiddenError('您没有权限更新该笔记')
+        }
+
+        note.content = content
+        return await note.save()
     },
     signUp: async (parent, { username, email, password }, { models }) => {
         // normalize email address

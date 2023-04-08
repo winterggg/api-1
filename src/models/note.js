@@ -6,7 +6,8 @@ const noteSchema = new mongoose.Schema({
         required: true
     },
     author: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // todo: https://mongoosejs.com/docs/populate.html
         required: true
     }
 }, { // https://mongoosejs.com/docs/guide.html#timestamps
