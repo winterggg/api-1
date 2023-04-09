@@ -4,6 +4,8 @@ const { ApolloServer, gql } = require('apollo-server-express')
 const jwt = require('jsonwebtoken')
 const helmet = require("helmet");
 const cors = require('cors')
+const depthLimit = require('graphql-depth-limit')
+const { createComplexityLimitRule } = require('graphql-validation-complexity')
 
 const db = require('./db')
 const models = require('./models')
@@ -34,7 +36,10 @@ app.use(cors())
 
 // 设置 Apollo Server
 const server = new ApolloServer({
-    typeDefs, resolvers, context: ({ req }) => {
+    typeDefs, 
+    resolvers, 
+    validationRules: [depthLimit(5), createComplexityLimitRule(1000)], // todo: 限制查询深度和复杂度, https://oreil.ly/_r5tl
+    context: ({ req }) => {
         // get the user token from the headers
         const token = req.headers.authorization
         // try to retrieve a user with the token

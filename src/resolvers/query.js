@@ -1,7 +1,7 @@
 module.exports = {
     hello: () => 'Hello, world!',
     notes: async (parent, args, { models }) => {
-        return await models.Note.find()
+        return await models.Note.find().limit(100)
     },
     note: (parent, args, { models }) => {
         return models.Note.findById(args.id)
@@ -10,7 +10,7 @@ module.exports = {
         return await models.User.findOne({ username })
     },
     users: async (parent, args, { models }) => {
-        return await models.User.find()
+        return await models.User.find().limit(100)
     },
     me: async (parent, args, { models, user }) => {
         return await models.User.findById(user.id)
