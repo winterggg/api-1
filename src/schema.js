@@ -22,6 +22,12 @@ type User {
     favorites: [Note!]!
 }
 
+type NodeFeed {
+    notes: [Note]!
+    cursor: String!
+    hasNextPage: Boolean!
+}
+
 type Query {
     hello: String!
     notes: [Note!]!
@@ -29,6 +35,7 @@ type Query {
     user(username: String!): User
     users: [User!]!
     me: User!
+    noteFeed(cursor: String): NodeFeed
 }
 
 type Mutation {

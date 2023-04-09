@@ -2,6 +2,8 @@ const express = require('express')
 require('dotenv').config()
 const { ApolloServer, gql } = require('apollo-server-express')
 const jwt = require('jsonwebtoken')
+const helmet = require("helmet");
+const cors = require('cors')
 
 const db = require('./db')
 const models = require('./models')
@@ -27,6 +29,8 @@ const getUser = token => {
 db.connect(DB_HOST)
 
 const app = express()
+app.use(helmet())
+app.use(cors())
 
 // 设置 Apollo Server
 const server = new ApolloServer({
@@ -44,4 +48,4 @@ server.applyMiddleware({ app, path: '/api' })
 
 app.get('/', (req, res) => res.send('Hello, world!!!'))
 
-app.listen(port, () => console.log(`Server running at http://localhost:${port}`))
+app.listen(port, () => console.log(`Server running at http://localhost:${port}\nGraphQL Server running at http://localhost:${port}${server.graphqlPath}`))
