@@ -1,10 +1,14 @@
 import logo from '../img/logo.svg';
 
-const Header = () => {
+interface HeaderProps {
+    title?: string;
+}
+
+const Header = ({ title = 'Notedly' }: HeaderProps) => {
     return (
         <header>
             <img src={logo} alt="logo" height="40" />
-            <h1>Notedly</h1>
+            <h1>{ title }</h1>
         </header>
     )
 }
