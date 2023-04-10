@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
-import normalize from 'normalize.css'
+import normalize from '/node_modules/normalize.css/normalize.css?inline'
+// todo: 这里需要重新考虑
 // todo: https://vitejs.dev/guide/features.html#css-modules
 // 当你导入一个CSS文件时，它的内容会通过一个<style>标签被插入到页面中。但是，如果你
 // 使用了?inline查询参数来导入CSS文件，那么它的内容不会被插入到页面中。相反，处理后的
