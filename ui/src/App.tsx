@@ -1,11 +1,13 @@
 import './App.css'
+import { GlobalStyle } from './components/GlobalStyle'
 import Pages from './pages'
 
 function App() {
 
   return (
     <div className='App'>
-      <Pages></Pages>
+      <GlobalStyle />
+      <Pages />
     </div>
   )
 }
