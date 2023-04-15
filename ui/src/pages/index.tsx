@@ -4,6 +4,7 @@ import Home from './home';
 import MyNotes from './mynotes';
 import Favorites from './favorites';
 import Layout from '../components/Layout';
+import NotePage from './note';
 
 const Pages = () => {
   return (
@@ -14,6 +15,7 @@ const Pages = () => {
           <Route path="/" Component={Home} />
           <Route path="/mynotes" Component={MyNotes} />
           <Route path="/favorites" Component={Favorites} />
+          <Route path="/note/:id" Component={NotePage} />
         </Routes>
       </Layout>
     </Router>
