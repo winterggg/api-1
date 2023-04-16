@@ -43,7 +43,7 @@ type Mutation {
     deleteNote(id: ID!): Boolean!
     updateNote(id: ID!, content: String!): Note!
     signUp(username: String!, email: String!, password: String!): String!
-    signIn(username: String!, email: String!, password: String!): String!
+    signIn(username: String, email: String!, password: String!): String!
     toggleFavorite(id: ID!): Note!
 }
 `
